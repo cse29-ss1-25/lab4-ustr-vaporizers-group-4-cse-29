@@ -106,13 +106,18 @@ Given a string s, return s reversed.
 Example: reverse("apples🍎 and bananas🍌") = "🍌sananab dna 🍎selppa")
 */
 UStr reverse(UStr s) {
-	char* p = UStr.contents;
-	int len = UStr.bytes;
-	char outstr[len];
-	for(int i = 0; *(p+i)!='\0'; i++){
-		int size = codepoint_at(p+i);
-		memcpy(outstr[len-i-size], p[i], size);	
-		i+=size;
+	// point to string to be reversed
+	char* p = s.contents;
+	int len = s.bytes;
+	// new string to store reverse
+	char outstr[len+1];
+
+	outstr[len] = 0;
+
+	int size = 0;
+	for(int i = 0; i < len; i+=size){
+		size = utf8_codepoint_size(p[i]);
+		memcpy(outstr + (len-i-size), p+i, size);	
 		
 	}
 	UStr str_return = new_ustr(outstr);
