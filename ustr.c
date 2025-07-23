@@ -66,7 +66,7 @@ Given 2 strings s1 and s2, returns a string that is the result of
 concatenating s1 and s2. 
 */
 UStr concat(UStr s1, UStr s2) {
-	char* new_contents[s1.bytes+s2.bytes+1];
+	char new_contents[s1.bytes+s2.bytes+1];
 	strcat(new_contents, s1.contents);
 	strcat(new_contents, s2.contents);
 	new_contents[s1.bytes +s2.bytes] = '\0'; 
