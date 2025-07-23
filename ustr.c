@@ -38,7 +38,27 @@ Returns an empty string on invalid range.
 */
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
+	if(start < 0 || start + end > len(s))
+	{
+		char *empty_str = "";
+		UStr empty = new_ustr(empty_str);
+		return empty;
+	}
 
+	int32_t start_byte_index = bi_of_cpi(s.contents, start);
+	int32_t end_byte_index = bi_of_cpi(s.contents, end);
+
+	uint8_t size = end_byte_index - start_byte_index + 1;
+
+	char sub_str[size];
+
+	strncpy(sub_str, s.contents + start_byte_index, size - 1);
+
+	sub_str[size - 1] = 0;
+
+	UStr sub = new_ustr(sub_str);
+
+	return sub;
 }
 
 /*
@@ -61,8 +81,23 @@ removed from the original string.
 Returns the original string if index is out of bounds.
 */
 UStr removeAt(UStr s, int32_t index) {
-	// TODO: implement this
-
+	// implemented 
+	UStr update = new_ustr(s.contents);
+	int i;
+	//find number of bytes to rewrite int eh beginning 
+	if(s.is_ascii){ 
+		for(i = index; i+1<s.codepoints; i++){
+			update.contents[i] = update.contents[i+1];
+		}
+	} else{
+		int8_t noof_bytes = utf8_codepoint_size(update.contents[index]);	
+		for(i = index; i<s.bytes; i++){
+			update.contents[i] = update.contents[i+noof_bytes];
+		}
+	}
+	update.contents[i]= 0;	
+	update.codepoints -= 1; 
+	return update;
 }
 
 /*
@@ -99,4 +134,5 @@ void free_ustr(UStr s) {
 		s.contents = NULL;
 	}
 }
+
 
