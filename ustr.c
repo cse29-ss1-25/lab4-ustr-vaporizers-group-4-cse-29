@@ -46,8 +46,12 @@ Given 2 strings s1 and s2, returns a string that is the result of
 concatenating s1 and s2. 
 */
 UStr concat(UStr s1, UStr s2) {
-	// TODO: implement this
-
+	char* new_contents[s1.bytes+s2.bytes+1];
+	strcat(new_contents, s1.contents);
+	strcat(new_contents, s2.contents);
+	new_contents[s1.bytes +s2.bytes] = '\0'; 
+	UStr str = new_ustr(new_contents);
+	return str;
 }
 
 /*
@@ -67,8 +71,21 @@ Given a string s, return s reversed.
 Example: reverse("apples🍎 and bananas🍌") = "🍌sananab dna 🍎selppa")
 */
 UStr reverse(UStr s) {
-	// TODO: implement this
-
+	char* p = UStr.contents;
+	int len = UStr.bytes;
+	char* outstr; 
+	for(int i = 0; *(p+i)!='\0'; i++){
+		if(!is_continuation_byte((unsigned_char)(p+i))){
+			int size = codepoint_at(p+i);
+			if(size == 1){
+				outstr[i] = *(size-i);	
+			}
+			else for(int j = size; j>=0; j--){
+					
+			}
+			i+=size;
+		}
+	}
 }
 
 
