@@ -57,8 +57,23 @@ removed from the original string.
 Returns the original string if index is out of bounds.
 */
 UStr removeAt(UStr s, int32_t index) {
-	// TODO: implement this
-
+	// implemented 
+	UStr update = new_ustr(s.contents);
+	int i;
+	//find number of bytes to rewrite int eh beginning 
+	if(s.is_ascii){ 
+		for(i = index; i+1<s.codepoints; i++){
+			update.contents[i] = update.contents[i+1];
+		}
+	} else{
+		int8_t noof_bytes = utf8_codepoint_size(update.contents[index]);	
+		for(i = index; i<s.bytes; i++){
+			update.contents[i] = update.contents[i+noof_bytes];
+		}
+	}
+	update.contents[i]= 0;	
+	update.codepoints -= 1; 
+	return update;
 }
 
 /*
@@ -82,4 +97,5 @@ void free_ustr(UStr s) {
 		s.contents = NULL;
 	}
 }
+
 
