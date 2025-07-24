@@ -38,7 +38,7 @@ Returns an empty string on invalid range.
 */
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
-	if(start < 0 || start + end > len(s))
+	if(start < 0 || end > len(s)-1 || start > len(s)-1)
 	{
 		char *empty_str = "";
 		UStr empty = new_ustr(empty_str);
